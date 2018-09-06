@@ -1,8 +1,11 @@
 
-function changeValue(elem, alter) {
-    if ((elem.value > 0  && alter == 1 || alter == -1) || (elem.value == 0 && alter == -1) ) {
+function changeValue(elem, alter, mins = NaN) {
+    if ((elem.value > 1  && alter == 1 || alter == -1) || (elem.value == 1 && alter == -1) ) {
         if((elem.value < 99  && alter == -1 || alter == 1) || (elem.value == 99 && alter == 1)){
-            elem.value -= alter;;
+            elem.value -= alter;
+            elem.value = displayFormat(elem.value);
+            mins.value -= alter;
+            mins.value = displayFormat(mins.value);
         }
         return;
     }
@@ -17,28 +20,27 @@ function countSecs(){
     let elemSecs = document.querySelector('.sec');
     let elemMins = document.querySelector('.min');
     let secInterval = setInterval(function () {
-        if(elemSecs.value == "00"){
-            elemMins.value--;
+        if(elemSecs.value == 0){
+            elemMins.value = timeFormat(elemMins, 1);
         }
         if(elemSecs.value == 0){
             elemSecs.value = 60;
         }
+
+        elemSecs.value *= 1;
         elemSecs.value--;
+        elemSecs.value = displayFormat(elemSecs);
         console.log(elemSecs.value,'1');
 
     },1000);
     return secInterval;
 }
 
-
-function displaySec(sec){
+function displayFormat(sec){
     if(sec < 10){
         sec = "0" + sec;
     }
     return sec;
-}
-function displayMin(min) {
-    return min
 }
 
 function getDefault() {
@@ -48,12 +50,13 @@ function getDefault() {
     let sec = document.querySelector('.sec');
     work.value = 25;
     rest.value = 5;
-    min.value = displayMin(work.value);
-    sec.value = displaySec(0);
+    min.value = work.value;
+    sec.value = displayFormat(0);
 
 }
 
 $(document).ready(function () {
+    let mins = document.querySelector('.min');
     getDefault();
     $('.reset').click(function(){
         getDefault();
@@ -66,13 +69,13 @@ $(document).ready(function () {
         stopCount(secInterval);
     });
     $('.minw').click(function(){
-        changeValue($('.timedisp')[0],1);
+        changeValue($('.timedisp')[0],1, mins);
      });
     $('.minr').click(function(){
         changeValue($('.timedisp')[1],1);
     });
     $('.plusw').click(function(){
-        changeValue($('.timedisp')[0],-1);
+        changeValue($('.timedisp')[0],-1, mins);
     });
     $('.plusr').click(function(){
         changeValue($('.timedisp')[1],-1);
