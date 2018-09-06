@@ -9,18 +9,61 @@ function changeValue(elem, alter) {
     return
 }
 
-function countDown(minutes){
-    console.log(minutes);
-    return setInterval(function () {
-        minutes --;
-        console.log(minutes,'1');
+function stopCount(interval){
+    clearInterval(interval);
+}
+
+function countSecs(){
+    let elemSecs = document.querySelector('.sec');
+    let elemMins = document.querySelector('.min');
+    let secInterval = setInterval(function () {
+        if(elemSecs.value == "00"){
+            elemMins.value--;
+        }
+        if(elemSecs.value == 0){
+            elemSecs.value = 60;
+        }
+        elemSecs.value--;
+        console.log(elemSecs.value,'1');
+
     },1000);
+    return secInterval;
 }
 
 
+function displaySec(sec){
+    if(sec < 10){
+        sec = "0" + sec;
+    }
+    return sec;
+}
+function displayMin(min) {
+    return min
+}
+
+function getDefault() {
+    let work = document.querySelectorAll('.timedisp')[0];
+    let rest = document.querySelectorAll('.timedisp')[1];
+    let min = document.querySelector('.min');
+    let sec = document.querySelector('.sec');
+    work.value = 25;
+    rest.value = 5;
+    min.value = displayMin(work.value);
+    sec.value = displaySec(0);
+
+}
+
 $(document).ready(function () {
-    $('.timedisp').click(function(){
-        countDown(this.value);
+    getDefault();
+    $('.reset').click(function(){
+        getDefault();
+        }
+    );
+    $('.start').click(function(){
+        countSecs();
+    });
+    $('.pause').click(function(){
+        stopCount(secInterval);
     });
     $('.minw').click(function(){
         changeValue($('.timedisp')[0],1);
