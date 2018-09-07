@@ -71,12 +71,13 @@ input {
     width: 150px;
     border: 1px solid green;
 }
-.center .settime {
+
+.settime {
   position: relative;
   display: flex;
   justify-content: center;
 }
-.center .settime .work {
+.work {
   position: relative;
   display: flex;
   width: 150px;
@@ -84,7 +85,7 @@ input {
   border: 1px solid black;
   justify-content: center;
 }
-.center .settime .btn {
+ .btn {
   font-size: 60px;
   color: #fff;
 }
@@ -93,7 +94,7 @@ input {
     display: flex;
     justify-content: center;
 }
-.start, .pause, .reset {
+#start, #pause, #reset {
     position: relative;
     margin: 5px;
     border: 1px solid white;
