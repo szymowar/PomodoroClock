@@ -7,20 +7,21 @@ function displayFormat(sec) {
     }
     return sec;
 }
-function changeValueMinus(elem) {
+
+function changeValueX(elem, fact, min, max) {
     let val = parseInt(elem.val(), 10);
-    if (elem.val() > 1  && elem.val() < 100) {
-            elem.val(val - 1);
-             elem.val(displayFormat(elem.val()));
-     }
- }
+    if (elem.val() > min  && elem.val() < max) {
+            elem.val(val - fact);
+            elem.val(displayFormat(elem.val()));
+}
+}
+function changeValueMinus(elem) {
+    changeValueX(elem, 1, 1, 100);
+}
+
 
 function changeValuePlus(elem) {
-    let val = parseInt(elem.val(), 10);
-    if (elem.val() > 0  && elem.val() < 99) {
-            elem.val(val + 1);
-             elem.val(displayFormat(elem.val()));
-     }
+    changeValueX(elem, -1, 0, 99);
  }
 
 function stopCount(interval){
