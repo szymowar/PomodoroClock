@@ -18,9 +18,7 @@ function stopCount(interval){
     clearInterval(interval);
 }
 
-function countSecs(){
-    let elemSecs = $('#sec');
-    let elemMins = $('#min');
+function countSecs(elemMins, elemSecs){
     let secInterval = setInterval(function () {
         if(elemSecs.val() == 0){
             elemMins.val(elemMins.val() - 1);
@@ -56,7 +54,7 @@ $(document).ready(function () {
         }
     );
     $('#start').click(function(){
-        countSecs();
+        countSecs(mins, secs);
     });
     $('#pause').click(function(){
         stopCount(secInterval);
