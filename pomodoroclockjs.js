@@ -1,3 +1,5 @@
+let secInterval;
+
 function displayFormat(sec) {
     sec = sec *1;
     if(sec < 10){
@@ -19,14 +21,13 @@ function stopCount(interval){
 }
 
 function countSecs(elemMins, elemSecs){
-    let secInterval = setInterval(function () {
+    secInterval = setInterval(function () {
         if(elemSecs.val() == 0){
             elemMins.val(elemMins.val() - 1);
             elemMins.val(displayFormat(elemMins.val()));
-        }
-        if(elemSecs.val() == 0){
             elemSecs.val(60);
         }
+
         elemSecs.val(elemSecs.val() - 1);
         elemSecs.val(displayFormat(elemSecs.val()));
 
@@ -50,6 +51,7 @@ $(document).ready(function () {
     getDefault(work, rest, mins, secs);
 
     $('#reset').click(function(){
+        stopCount(secInterval);
         getDefault(work, rest, mins, secs);
         }
     );
