@@ -1,5 +1,5 @@
-let secInterval;
 
+let secInterval;
 function displayFormat(sec) {
     sec = sec *1;
     if(sec < 10){
@@ -7,14 +7,21 @@ function displayFormat(sec) {
     }
     return sec;
 }
-
-function changeValueX(elem, fact, min, max) {
+function changeValueMinus(elem) {
     let val = parseInt(elem.val(), 10);
-    if (elem.val() > min  && elem.val() < max) {
-            elem.val(val - fact);
-            elem.val(displayFormat(elem.val()));
-    }
-}
+    if (elem.val() > 1  && elem.val() < 100) {
+            elem.val(val - 1);
+             elem.val(displayFormat(elem.val()));
+     }
+ }
+
+function changeValuePlus(elem) {
+    let val = parseInt(elem.val(), 10);
+    if (elem.val() > 0  && elem.val() < 99) {
+            elem.val(val + 1);
+             elem.val(displayFormat(elem.val()));
+     }
+ }
 
 function stopCount(interval){
     clearInterval(interval);
@@ -62,17 +69,17 @@ $(document).ready(function () {
         stopCount(secInterval);
     });
     $('.minw').click(function(){
-        changeValueX(work, 1, 1 , 100);
-         mins.val(work.val());
+        changeValueMinus(work);
+        mins.val(work.val());
      });
     $('.minr').click(function(){
-        changeValueX(rest, 1, 1 , 100);;
+        changeValueMinus(rest);
     });
     $('.plusw').click(function(){
-        changeValueX(work, -1, 0 , 99);;
-         mins.val(work.val());
+        changeValuePlus(work);
+        mins.val(work.val());
     });
     $('.plusr').click(function(){
-        changeValueX(rest, -1, 0 , 99);;
+        changeValuePlus(rest);
     });
 });
