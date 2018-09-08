@@ -16,6 +16,14 @@ function changeValueX(elem, fact, min, max) {
     }
 }
 
+function changeValueMinus(elem) {
+    changeValueX(elem, 1, 1 , 100);
+}
+
+function changeValuePlus(elem) {
+    changeValueX(elem, -1, 0 , 99)
+}
+
 function stopCount(interval){
     clearInterval(interval);
 }
@@ -62,17 +70,17 @@ $(document).ready(function () {
         stopCount(secInterval);
     });
     $('.minw').click(function(){
-        changeValueX(work, 1, 1 , 100);
+        changeValueMinus(work);
          mins.val(work.val());
      });
     $('.minr').click(function(){
-        changeValueX(rest, 1, 1 , 100);;
+        changeValueMinus(rest);
     });
     $('.plusw').click(function(){
-        changeValueX(work, -1, 0 , 99);;
+        changeValuePlus(work);
          mins.val(work.val());
     });
     $('.plusr').click(function(){
-        changeValueX(rest, -1, 0 , 99);;
+        changeValuePlus(rest);
     });
 });
