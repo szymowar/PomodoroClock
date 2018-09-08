@@ -6,20 +6,12 @@ function displayFormat(sec) {
     return sec;
 }
 
-function changeValuePlus(elem) {
-    if (elem.val() > 0  && elem.val() < 99) {
-            elem.val(elem.val()*1 + 1);
+function changeValueX(elem, fact, min, max) {
+    let val = parseInt(elem.val(), 10);
+    if (elem.val() > min  && elem.val() < max) {
+            elem.val(val - fact);
             elem.val(displayFormat(elem.val()));
     }
-    return;
-}
-
-function changeValueMinus(elem) {
-    if (elem.val() > 1  && elem.val() < 100) {
-            elem.val(elem.val()*1 - 1);
-            elem.val(displayFormat(elem.val()));
-    }
-    return;
 }
 
 function stopCount(interval){
@@ -70,17 +62,17 @@ $(document).ready(function () {
         stopCount(secInterval);
     });
     $('.minw').click(function(){
-        changeValueMinus(work);
+        changeValueX(work, 1, 1 , 100);
          mins.val(work.val());
      });
     $('.minr').click(function(){
-        changeValueMinus(rest);
+        changeValueX(rest, 1, 1 , 100);;
     });
     $('.plusw').click(function(){
-        changeValuePlus(work);
+        changeValueX(work, -1, 0 , 99);;
          mins.val(work.val());
     });
     $('.plusr').click(function(){
-        changeValuePlus(rest);
+        changeValueX(rest, -1, 0 , 99);;
     });
 });
