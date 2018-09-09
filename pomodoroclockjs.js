@@ -1,4 +1,6 @@
-
+let __GLOBAL_N__ = {};
+    __GLOBAL_N__.work = "WORK";
+    __GLOBAL_N__.rest = "REST";
 let secInterval;
 function displayFormat(sec) {
     sec = sec *1;
@@ -29,12 +31,12 @@ function stopCount(interval){
 }
 
 function phaseChange(phase, work, rest, elemMins){
-    if (phase.html() == 'WORK'){
+    if (phase.html() == __GLOBAL_N__.work){
         elemMins.val(rest.val());
-        phase.html("REST");
+        phase.html(__GLOBAL_N__.rest);
     }else{
         elemMins.val(work.val());
-        phase.html("WORK");
+        phase.html(__GLOBAL_N__.work);
     }
 }
 
@@ -57,7 +59,7 @@ function countSecs(phase, work, rest, elemMins, elemSecs){
 }
 
 function getDefault(phase, work, rest, min, sec) {
-    phase.html("WORK");
+    phase.html(__GLOBAL_N__.work);
     work.val(25);
     rest.val(displayFormat(5));
     min.val(work.val());
