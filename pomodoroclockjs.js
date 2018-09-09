@@ -28,14 +28,27 @@ function stopCount(interval){
     clearInterval(interval);
 }
 
-function countSecs(elemMins, elemSecs){
+function phaseChange(phase, work, rest, elemMins){
+    if (phase.html() == 'WORK'){
+        elemMins.val(rest.val());
+        phase.html("REST");
+    }else{
+        elemMins.val(work.val());
+        phase.html("WORK");
+    }
+}
+
+function countSecs(phase, work, rest, elemMins, elemSecs){
     secInterval = setInterval(function () {
+        if(elemMins.val() == 0 && elemSecs.val() == 0){
+            phaseChange(phase, work, rest, elemMins);
+        }
+
         if(elemSecs.val() == 0){
             elemMins.val(elemMins.val() - 1);
             elemMins.val(displayFormat(elemMins.val()));
             elemSecs.val(60);
         }
-
         elemSecs.val(elemSecs.val() - 1);
         elemSecs.val(displayFormat(elemSecs.val()));
 
@@ -43,7 +56,8 @@ function countSecs(elemMins, elemSecs){
     return secInterval;
 }
 
-function getDefault(work, rest, min, sec) {
+function getDefault(phase, work, rest, min, sec) {
+    phase.html("WORK");
     work.val(25);
     rest.val(displayFormat(5));
     min.val(work.val());
@@ -51,12 +65,13 @@ function getDefault(work, rest, min, sec) {
 }
 
 $(document).ready(function () {
+    let phase = $("#timer-phase");
     let work = $('#dispwork');
     let rest = $('#disprest');
     let mins = $('#min');
     let secs = $('#sec');
 
-    getDefault(work, rest, mins, secs);
+    getDefault(phase, work, rest, mins, secs);
 
     $('#reset').click(function(){
         stopCount(secInterval);
@@ -64,7 +79,7 @@ $(document).ready(function () {
         }
     );
     $('#start').click(function(){
-        countSecs(mins, secs);
+        countSecs(phase, work, rest, mins, secs);
     });
     $('#pause').click(function(){
         stopCount(secInterval);
