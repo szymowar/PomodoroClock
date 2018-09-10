@@ -3,6 +3,7 @@ let __GLOBAL_N__ = {};
     __GLOBAL_N__.rest = "REST";
 
 let secInterval;
+let beeper;
 
 function displayFormat(sec) {
     sec = sec *1;
@@ -28,8 +29,10 @@ function changeValuePlus(elem) {
     changeValueX(elem, -1, 0, 99);
  }
 
-function stopCount(interval){
-    clearInterval(interval);
+function stopCount(interval, delay){
+    setTimeout(function(){
+        clearInterval(interval);
+    }, delay);
 }
 
 function phaseChange(phase, work, rest, elemMins){
@@ -41,11 +44,19 @@ function phaseChange(phase, work, rest, elemMins){
         phase.html(__GLOBAL_N__.work);
     }
 }
+function beep(audiosrc) {
+        beeper = setInterval(function(){
+            audiosrc.play();
+        }, 0);
+        return beeper;
+}
 
-function countSecs(phase, work, rest, elemMins, elemSecs){
+function countSecs(phase, work, rest, elemMins, elemSecs, audiosrc){
     secInterval = setInterval(function () {
         if(elemMins.val() == 0 && elemSecs.val() == 0){
             phaseChange(phase, work, rest, elemMins);
+            beep(audiosrc);
+            stopCount(beeper, 4000);
         }
         if(elemSecs.val() == 0) {
             elemMins.val(elemMins.val() - 1);
@@ -72,19 +83,20 @@ $(document).ready(function () {
     let rest = $('#disprest');
     let mins = $('#min');
     let secs = $('#sec');
+    let audiosrc = $('#beep')[0];
+
 
     getDefault(phase, work, rest, mins, secs);
 
     $('#reset').click(function(){
-        stopCount(secInterval);
+        stopCount(secInterval, 0);
         getDefault(phase, work, rest, mins, secs);
-        }
-    );
+    });
     $('#start').click(function(){
-        countSecs(phase, work, rest, mins, secs);
+        countSecs(phase, work, rest, mins, secs, audiosrc);
     });
     $('#pause').click(function(){
-        stopCount(secInterval);
+        stopCount(secInterval, 0);
     });
     $('.minw').click(function(){
         changeValueMinus(work);
