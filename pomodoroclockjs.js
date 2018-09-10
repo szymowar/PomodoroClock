@@ -1,7 +1,9 @@
 let __GLOBAL_N__ = {};
     __GLOBAL_N__.work = "WORK";
     __GLOBAL_N__.rest = "REST";
+
 let secInterval;
+
 function displayFormat(sec) {
     sec = sec *1;
     if(sec < 10){
@@ -15,12 +17,12 @@ function changeValueX(elem, fact, min, max) {
     if (elem.val() > min  && elem.val() < max) {
             elem.val(val - fact);
             elem.val(displayFormat(elem.val()));
+        }
 }
-}
+
 function changeValueMinus(elem) {
     changeValueX(elem, 1, 1, 100);
 }
-
 
 function changeValuePlus(elem) {
     changeValueX(elem, -1, 0, 99);
@@ -45,15 +47,13 @@ function countSecs(phase, work, rest, elemMins, elemSecs){
         if(elemMins.val() == 0 && elemSecs.val() == 0){
             phaseChange(phase, work, rest, elemMins);
         }
-
-        if(elemSecs.val() == 0){
+        if(elemSecs.val() == 0) {
             elemMins.val(elemMins.val() - 1);
             elemMins.val(displayFormat(elemMins.val()));
             elemSecs.val(60);
         }
         elemSecs.val(elemSecs.val() - 1);
         elemSecs.val(displayFormat(elemSecs.val()));
-
     },1000);
     return secInterval;
 }
@@ -77,7 +77,7 @@ $(document).ready(function () {
 
     $('#reset').click(function(){
         stopCount(secInterval);
-        getDefault(work, rest, mins, secs);
+        getDefault(phase, work, rest, mins, secs);
         }
     );
     $('#start').click(function(){
