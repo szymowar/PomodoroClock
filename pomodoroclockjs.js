@@ -48,6 +48,9 @@ function beep(audiosrc) {
                 audiosrc.pause();
             }, 4000)
 }
+function beepReloader(audiosrc){
+    audiosrc.load();
+}
 
 function countSecs(phase, work, rest, elemMins, elemSecs, audiosrc){
     secInterval = setInterval(function () {
@@ -88,6 +91,7 @@ $(document).ready(function () {
     $('#reset').click(function(){
         stopCount(secInterval);
         getDefault(phase, work, rest, mins, secs);
+        beepReloader(audiosrc);
     });
     $('#start').click(function(){
         countSecs(phase, work, rest, mins, secs, audiosrc);
