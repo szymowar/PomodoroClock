@@ -65,7 +65,7 @@ input {
   width: 100px;
   font-size: 60px;
 }
-.timer{
+.timer {
     display: flex;
     justify-content: center;
     width: 150px;
@@ -107,7 +107,7 @@ input {
     display: flex;
     justify-content: center;
 }
-#start, #pause, #reset {
+#start-stop, #reset {
     position: relative;
     margin: 5px;
     border: 1px solid white;

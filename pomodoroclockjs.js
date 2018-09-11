@@ -1,9 +1,11 @@
 let __GLOBAL_N__ = {};
     __GLOBAL_N__.work = "WORK";
     __GLOBAL_N__.rest = "REST";
+    __GLOBAL_N__.start = "START";
+    __GLOBAL_N__.stop = "STOP";
 
 let secInterval = undefined;
-let beeper = undefined;
+
 
 function displayFormat(sec) {
     sec = sec *1;
@@ -28,6 +30,9 @@ function changeValueMinus(elem) {
 function changeValuePlus(elem) {
     changeValueX(elem, -1, 0, 99);
  }
+ function changeValuePlusRest(elem) {
+     changeValueX(elem, -1, 0, 60);
+  }
 
 function stopCount(interval){
         clearInterval(interval);
@@ -69,35 +74,41 @@ function countSecs(phase, work, rest, elemMins, elemSecs, audiosrc){
     return secInterval;
 }
 
-function getDefault(phase, work, rest, min, sec) {
+function getDefault(phase, work, rest, min, sec, start_stop) {
     phase.html(__GLOBAL_N__.work);
     work.val(25);
     rest.val(displayFormat(5));
     min.val(work.val());
     sec.val(displayFormat(0));
+    start_stop.html(__GLOBAL_N__.start);
 }
 
 $(document).ready(function () {
-    let phase = $("#timer-phase");
-    let work = $('#dispwork');
-    let rest = $('#disprest');
+    let phase = $("#timer-label");
+    let work = $('#session-length');
+    let rest = $('#break-length');
     let mins = $('#min');
     let secs = $('#sec');
     let audiosrc = $('#beep')[0];
+    let start_stop = $('#start-stop');
 
 
-    getDefault(phase, work, rest, mins, secs);
+
+    getDefault(phase, work, rest, mins, secs, start_stop);
 
     $('#reset').click(function(){
         stopCount(secInterval);
-        getDefault(phase, work, rest, mins, secs);
+        getDefault(phase, work, rest, mins, secs, start_stop);
         beepReloader(audiosrc);
     });
-    $('#start').click(function(){
-        countSecs(phase, work, rest, mins, secs, audiosrc);
-    });
-    $('#pause').click(function(){
-        stopCount(secInterval);
+    start_stop.click(function(){
+        if(start_stop.html() == __GLOBAL_N__.start){
+            start_stop.html(__GLOBAL_N__.stop);
+            countSecs(phase, work, rest, mins, secs, audiosrc);
+        } else if (start_stop.html() == __GLOBAL_N__.stop){
+            start_stop.html(__GLOBAL_N__.start);
+            stopCount(secInterval);
+        }
     });
     $('.minw').click(function(){
         changeValueMinus(work);
@@ -111,6 +122,6 @@ $(document).ready(function () {
         mins.val(work.val());
     });
     $('.plusr').click(function(){
-        changeValuePlus(rest);
+        changeValuePlusRest(rest);
     });
 });

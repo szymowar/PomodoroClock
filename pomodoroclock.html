@@ -12,24 +12,25 @@
     <div class="center">
         <div class="settime">
             <div class="work">
-                <div class="btn minw">-</div>
-                <input id="dispwork" value="25" readonly>
-                <div class="btn plusw">+</div>
+                <p id="session-label">WORK</p>
+                <div id="session-decrement" class="btn minw">-</div>
+                <input id="session-length" value="25" readonly>
+                <div id="session-increment" class="btn plusw">+</div>
             </div>
             <div class="rest">
-                <div class="btn minr">-</div>
-                <input id="disprest" value="5" readonly>
-                <div class="btn plusr">+</div>
+                <p id="break-label">REST</p>
+                <div id="break-decrement" class="btn minr">-</div>
+                <input id="break-length" value="5" readonly>
+                <div id="break-increment" class="btn plusr">+</div>
             </div>
         </div>
-        <div class="timer"><p id="timer-phase">WORK</p>
+        <div id="timer-left" class="timer"><p id="timer-label">WORK</p>
           <input id="min" readonly>
           <input id="colon" value=":" readonly>
           <input id="sec" readonly>
       </div>
         <div class="control">
-            <div id="start">START</div>
-            <div id="pause">PAUSE</div>
+            <div id="start-stop"></div>
             <div id="reset">RESET</div>
         </div>
 
