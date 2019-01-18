@@ -19,16 +19,17 @@ function changeValueX(elem, fact, min, max) {
     let val = parseInt(elem.val(), 10);
     if (elem.val() > min  && elem.val() < max) {
             elem.val(val - fact);
-            elem.val(displayFormat(elem.val()));
+            elem.val(elem.val());
+            elem.html(elem.val());
         }
 }
 
 function changeValueMinus(elem) {
-    changeValueX(elem, 1, 1, 100);
+    changeValueX(elem, 1, 1, 61);
 }
 
 function changeValuePlus(elem) {
-    changeValueX(elem, -1, 0, 99);
+    changeValueX(elem, -1, 0, 60);
  }
  function changeValuePlusRest(elem) {
      changeValueX(elem, -1, 0, 60);
@@ -38,90 +39,106 @@ function stopCount(interval){
         clearInterval(interval);
 }
 
-function phaseChange(phase, work, rest, elemMins){
+function phaseChange(phase, work, rest, timeL){
     if (phase.html() == __GLOBAL_N__.work){
-        elemMins.val(rest.val());
+        timeL.val(timeLeft(rest.val()));
+        timeL.html(timeL.val());
         phase.html(__GLOBAL_N__.rest);
     }else{
-        elemMins.val(work.val());
+        timeL.val(timeLeft(work.val()));
+        timeL.html(timeL.val())
         phase.html(__GLOBAL_N__.work);
     }
 }
 function beep(audiosrc) {
             audiosrc.play();
-            setTimeout(function(){
-                audiosrc.pause();
-            }, 4000)
+            audiosrc.loop = false;
 }
 function beepReloader(audiosrc){
     audiosrc.load();
 }
 
-function countSecs(phase, work, rest, elemMins, elemSecs, audiosrc){
+function timeLeft(mins, secs=0){
+    return displayFormat(mins) + ":" + displayFormat(secs);
+}
+function countSecs(phase, work, rest, timeL, audiosrc){
+    let mins = timeL.val().slice(0,2);
+    let secs = timeL.val().slice(3);
     secInterval = setInterval(function () {
-        if(elemMins.val() == 0 && elemSecs.val() == 0){
-            phaseChange(phase, work, rest, elemMins);
+        if(mins == 0 && secs == 0){
+            if (phase.html() == __GLOBAL_N__.work){
+                phase.html(__GLOBAL_N__.rest);
+                mins = rest.val();
+            }else {
+                phase.html(__GLOBAL_N__.work);
+                mins = work.val();
+            }
             beep(audiosrc);
         }
-        if(elemSecs.val() == 0) {
-            elemMins.val(elemMins.val() - 1);
-            elemMins.val(displayFormat(elemMins.val()));
-            elemSecs.val(60);
+        if(secs == 0) {
+            mins -= 1;
+            secs = 60;
+            timeL.val(timeLeft(mins, 60));
+            timeL.html(timeL.val());
         }
-        elemSecs.val(elemSecs.val() - 1);
-        elemSecs.val(displayFormat(elemSecs.val()));
+        secs -= 1;
+        timeL.val(timeLeft(mins, secs));
+        timeL.html(timeL.val());
     },1000);
     return secInterval;
 }
 
-function getDefault(phase, work, rest, min, sec, start_stop) {
+function getDefault(phase, work, rest, timeL, start_stop) {
     phase.html(__GLOBAL_N__.work);
     work.val(25);
-    rest.val(displayFormat(5));
-    min.val(work.val());
-    sec.val(displayFormat(0));
+    rest.val(5);
+    work.html(25);
+    rest.html(5);
+    timeL.val(timeLeft(work.val()))
+    timeL.html(timeL.val());
     start_stop.html(__GLOBAL_N__.start);
 }
-
+function changTimeLeft(elem) {
+    elem.html(elem.val());
+}
 $(document).ready(function () {
     let phase = $("#timer-label");
     let work = $('#session-length');
     let rest = $('#break-length');
-    let mins = $('#min');
-    let secs = $('#sec');
+    let timeL = $('#time-left');
     let audiosrc = $('#beep')[0];
-    let start_stop = $('#start-stop');
+    let start_stop = $('#start_stop');
 
-
-
-    getDefault(phase, work, rest, mins, secs, start_stop);
-
+    getDefault(phase, work, rest, timeL, start_stop);
     $('#reset').click(function(){
         stopCount(secInterval);
-        getDefault(phase, work, rest, mins, secs, start_stop);
+        getDefault(phase, work, rest, timeL, start_stop);
         beepReloader(audiosrc);
     });
     start_stop.click(function(){
         if(start_stop.html() == __GLOBAL_N__.start){
             start_stop.html(__GLOBAL_N__.stop);
-            countSecs(phase, work, rest, mins, secs, audiosrc);
+            countSecs(phase, work, rest, timeL, audiosrc);
         } else if (start_stop.html() == __GLOBAL_N__.stop){
             start_stop.html(__GLOBAL_N__.start);
             stopCount(secInterval);
         }
     });
-    $('.minw').click(function(){
+    $('#session-decrement').click(function(){
         changeValueMinus(work);
-        mins.val(work.val());
+        timeL.val(timeLeft(work.val()));
+        timeL.html(timeL.val());
+
      });
-    $('.minr').click(function(){
+    $('#break-decrement').click(function(){
         changeValueMinus(rest);
     });
-    $('.plusw').click(function(){
+    $('#session-increment').click(function(){
         changeValuePlus(work);
-        mins.val(work.val());
+        timeL.val(timeLeft(work.val()));
+        timeL.html(timeL.val());
     });
-    $('.plusr').click(function(){
+    $('#break-increment').click(function(){
         changeValuePlusRest(rest);
     });
 });
